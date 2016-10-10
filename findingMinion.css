@@ -1,0 +1,35 @@
+body{
+	background-color: black;
+	font-family: bauhausdemi;
+}
+label{
+	color: white;
+}
+@font-face{
+	font-family: bauhausdemi;
+	src:url("font/Bauhaus_Demi.ttf");
+}
+.header{
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	color: yellow;
+}
+.firstImage{
+	width: 60%;
+	height: 100%;
+}
+.banner1{
+	padding-left: 10%;
+	float: left;
+	width: 10%;
+
+}
+.banner2{
+	margin-right: 10%;
+	float: right;
+	width: 10%;
+}
+.content{
+	text-align: center;
+}
