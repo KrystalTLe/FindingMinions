@@ -44,28 +44,61 @@ function refreshRoom() {
 // This function should get the text from the prompt textbox and parse it
 // depending on the parsed command, it calls appriopriate functions to
 // either take, drop, or go to a different room
+function isValid(commands){
+
+	var directionArray=['north','south','east','west'];
+	var isAction  = commands.search(/^go /);
+	var isDirection = "";
+	if (isAction == 0){
+		console.log("is action true");
+		commands=commands.split(' ');
+		var direction=commands[1].toLowerCase();
+		isDirection = direction.search(/\w/)
+		console.log(isDirection)
+		if(isDirection == 0 ){
+			console.log("is direction true")
+			for (var i=0; i<directionArray.length; i++){
+				if (direction == directionArray[i]){
+				console.log(" yay correct!")
+				return true;
+				}
+			}
+		}else{
+			return false;
+		}
+	}else{
+		return false;
+	}
+	return false;
+}
 
 function parseCommand() {
 
 	// TODO - hint: use split() string method to divide text by spaces
 	//Get command Id
-	var command=document.getElementById("command").value;
-	
+	//console.log(isAction)
 	//Split command and only get direction
-	command=command.split(' ');
+	
 
 	//Convert command[1] into lowercase and save value into variable direction
-	var direction=command[1].toLowerCase();
-	console.log(direction);
-	//Direction array for testing purposes, ensure that user enters directions in the right format.
-	var directionArray=['north','south','east','west'];
-	for (var i=0; i<directionArray.length; i++){
-		if (direction!=directionArray[i]);
-		document.getElementById("error").innerHTML="Please make sure you enter command in the right format: Go [North][South][East][West]";
+	
+	
+	var command=document.getElementById("command").value;
+	var ok = isValid(command);
+	if (ok == true){
+		document.getElementById("error").innerHTML=" ";
 		
+	}else{
+		document.getElementById("error").innerHTML="Please make sure you enter command in the right format: Go [North][South][East][West]";
 	}
 	
 	
+	
+
+	//Direction array for testing purposes, ensure that user enters directions in the right format.
+	//---- the loop checks direction but nevre stops we need beteer checkin
+	// --- need to check the length of the sttring first
+	// ex: hi north or 1 or l -- need to account for all these th
 			// TODO - hint: use split() string method to divide text by spaces
 }
 
