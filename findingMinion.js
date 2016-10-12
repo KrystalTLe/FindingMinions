@@ -14,7 +14,7 @@ function init() {
 	
 	// Make an array that will contain room numbers accessible from a given room
 	//roomAccess = [N,E, S, W]
-	roomAccess = [ [0, -1, -1, -1], [0,-1,1,3], [-1, -1, 1, -1],[-1, 2, 1, 3],[-1,-1,1,-1],[-1,-1,1,-1] ]; // For just 2 rooms - you will need more
+	roomAccess = [ [0, -1, -1, -1], [0,-1,1, 3 ], [-1, -1, 1, -1],[-1, 2, 1, 3],[-1,-1,1,-1],[-1,-1,1,-1] ]; // For just 2 rooms - you will need more
 	// This is how you will access the target room: roomAccess[currentRoom][dir]
 	// e.g., roomAcess[1][NORTH]
 	//---------------
@@ -59,28 +59,17 @@ function isValid(commands){
 			console.log("is direction true")
 			for (var i=0; i<directionArray.length; i++){
 				if (direction == directionArray[i]){
-				console.log(" yay correct!")
-				return true;
+					console.log(" yay command is correct!")
+					return true;
 				}
 			}
-		}else{
-			return false;
 		}
-	}else{
-		return false;
 	}
 	return false;
 }
 
 function parseCommand() {
 
-	// TODO - hint: use split() string method to divide text by spaces
-	//Get command Id
-	//console.log(isAction)
-	//Split command and only get direction
-	
-
-	//Convert command[1] into lowercase and save value into variable direction
 	
 	
 	var command=document.getElementById("command").value;
@@ -91,15 +80,7 @@ function parseCommand() {
 	}else{
 		document.getElementById("error").innerHTML="Please make sure you enter command in the right format: Go [North][South][East][West]";
 	}
-	
-	
-	
 
-	//Direction array for testing purposes, ensure that user enters directions in the right format.
-	//---- the loop checks direction but nevre stops we need beteer checkin
-	// --- need to check the length of the sttring first
-	// ex: hi north or 1 or l -- need to account for all these th
-			// TODO - hint: use split() string method to divide text by spaces
 }
 
 // Event handler that checks if user pressed ENTER key
@@ -133,5 +114,3 @@ function newCommand() {
 	      }		
 	}	 
 }
-
-//-->
