@@ -1,6 +1,5 @@
-<!--
-// This function should initialize all global variables
-// for score, room traversal possibilities, items, etc.
+
+	
 function init() {
 	// We can make (fake) constants for direction: 0-North, 1-South, ...
 	NORTH = 0;
@@ -18,7 +17,8 @@ function init() {
 	roomAccess = [ [0, -1, -1, -1], [0,-1,1,3], [-1, -1, 1, -1],[-1, 2, 1, 3],[-1,-1,1,-1],[-1,-1,1,-1] ]; // For just 2 rooms - you will need more
 	// This is how you will access the target room: roomAccess[currentRoom][dir]
 	// e.g., roomAcess[1][NORTH]
-
+	//---------------
+	//----------------
 	// Make an array of room descriptions (just strings)
 	roomDescriptions [ "You're in front of the apartment. Go North to open the door to the livingroom", 
 	"You're in the livingroom. Go Left to get to kitchen and go North to get to 2nd Floor",
@@ -44,7 +44,9 @@ function refreshRoom() {
 // either take, drop, or go to a different room
 
 function parseCommand() {
-i				// TODO - hint: use split() string method to divide text by spaces
+	
+	
+			// TODO - hint: use split() string method to divide text by spaces
 }
 
 // Event handler that checks if user pressed ENTER key
@@ -65,7 +67,12 @@ function newCommand() {
 	if (x==13) {
 	   // *** YOUR CODE GOES HERE ***
 		// This should be a call to parseCommand
-		
+		// -- gets the command form the user
+		var commands = document.getElementById("imageURL").value;
+		//-debug 
+		window.alert("this was your command: "+ commands)
+		parseCommand(commands);
+
 	   // Stop event propagation
 	      if(!e) var e = window.event;
 	      e.cancelBubble = true;
@@ -74,7 +81,7 @@ function newCommand() {
 	          e.stopPropagation();
 	          e.preventDefault();
 	      }		
-	}	
+	}	 
 }
 
 //-->
