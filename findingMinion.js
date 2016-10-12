@@ -20,7 +20,7 @@ function init() {
 	// e.g., roomAcess[1][NORTH]
 
 	// Make an array of room descriptions (just strings)
-	roomDescriptions [ "You're in front of the apartment. Go North to open the door to the livingroom", 
+	roomDescriptions =[ "You're in front of the apartment. Go North to open the door to the livingroom", 
 	"You're in the livingroom. Go Left to get to kitchen and go North to get to 2nd Floor",
 	"You're in the kitchen. Go South to back out of kitchen to get to 2nd floor",
 	"You're in loft on Second Floor. Go Left to get to the 1st bedroom, go Right to get to 2nd bedroom. Go South to get to 1st Floor Livingroom", 
@@ -31,6 +31,8 @@ function init() {
 	imageArray = ["images/livingroom.jpg", "images/kitchen.jpg", "images/openfloor", "images/bedroom1", "images/bedroom2"]; 
 	var theImage = document.getElementById("theImage");  // Get reference to <img> element
 	theImage.src = imageArray[currentRoom];  // Set the source
+	
+
 }
 
 // You need a function like this to update room image, description, and items
@@ -44,7 +46,21 @@ function refreshRoom() {
 // either take, drop, or go to a different room
 
 function parseCommand() {
-i				// TODO - hint: use split() string method to divide text by spaces
+	// TODO - hint: use split() string method to divide text by spaces
+	//Get command Id
+	var command=document.getElementById("command").value;
+	
+	//Split command and only get direction
+	command=command.split(' ');
+
+	//Convert command[1] into lowercase and save value into variable direction
+	var direction=command[1].toLowerCase();
+	//Direction array for testing purposes, ensure that user enters directions in the right format.
+	var directionArray=['north','south','east','west'];
+	for (var i=0; i<directionArray.length; i++){
+		console.log(directionArray[i]);
+		console.log(direction);
+	}
 }
 
 // Event handler that checks if user pressed ENTER key
@@ -64,6 +80,7 @@ function newCommand() {
 	// Check if "enter" was pressed
 	if (x==13) {
 	   // *** YOUR CODE GOES HERE ***
+	   	parseCommand()
 		// This should be a call to parseCommand
 		
 	   // Stop event propagation

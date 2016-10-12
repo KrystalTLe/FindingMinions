@@ -5,10 +5,6 @@ body{
 label{
 	color: white;
 }
-@font-face{
-	font-family: bauhausdemi;
-	src:url("font/Bauhaus_Demi.ttf");
-}
 .header{
 	text-align: center;
 	width: 100%;
