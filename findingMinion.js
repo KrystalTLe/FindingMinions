@@ -1,5 +1,3 @@
-
-	
 function init() {
 	// We can make (fake) constants for direction: 0-North, 1-South, ...
 	NORTH = 0;
@@ -11,22 +9,26 @@ function init() {
 	score = 0;
 	playerItems = [];
 	currentRoom = 0;
+	playerPossition = 0;
+	directionArray=['north','south','east','west'];
 	
 	// Make an array that will contain room numbers accessible from a given room
 	//roomAccess = [N,E, S, W]
-	roomAccess = [ [0, -1, -1, -1], [0,-1,1, 3 ], [-1, -1, 1, -1],[-1, 2, 1, 3],[-1,-1,1,-1],[-1,-1,1,-1] ]; // For just 2 rooms - you will need more
+	//-------------1------------2--------2-----------------------3-----------4---------------------5--------6--------
+	roomAccess = [ ["north"], ["north","south","west"], ["east"],["south","east","west"],["south"],["south"] ]; // For just 2 rooms - you will need more
 	// This is how you will access the target room: roomAccess[currentRoom][dir]
 	// e.g., roomAcess[1][NORTH]
 	//---------------
 	//----------------
 	// Make an array of room descriptions (just strings)
-	roomDescriptions =[ "You're in front of the apartment. Go North to open the door to the livingroom", 
-	"You're in the livingroom. Go Left to get to kitchen and go North to get to 2nd Floor",
-	"You're in the kitchen. Go South to back out of kitchen to get to 2nd floor",
-	"You're in loft on Second Floor. Go Left to get to the 1st bedroom, go Right to get to 2nd bedroom. Go South to get to 1st Floor Livingroom", 
-	"You're in the 1st bedroom on Second Floor. Go South to get to Open Loft area",
-	"You're in the 2nd bedroom on Second Floor. Go South to get to Open Loft area"];
+	roomDescriptions =[ "You're in front of the apartment. 'GO NORTH' to enter the livingroom", 
+	"You're in the livingroom. 'GO WEST' to enter kitchen and 'GO NORTH' to go to the 2nd Floor",
+	"You're in the kitchen. 'GO EAST' to back out of kitchen to get to living room",
+	"You're in loft on Second Floor. 'GO WEST' to get to the 1st bedroom, 'GO EAST' to get to 2nd bedroom. 'GO SOUTH' to get to 1st Floor Livingroom", 
+	"You're in the 1st bedroom on Second Floor. 'GO SOUTH' to get to Open Loft area",
+	"You're in the 2nd bedroom on Second Floor. 'GO SOUTH' to get to Open Loft area"];
 
+	document.getElementById("error").innerHTML=roomDescriptions[0];
 	// Below is an example of how to set the image based on current room
 	imageArray = ["images/entrance.jpg","images/livingroom.jpg", "images/kitchen.jpg", "images/openfloor", "images/bedroom", "images/bedroom2"]; 
 	var theImage = document.getElementById("theImage");  // Get reference to <img> element
@@ -37,16 +39,34 @@ function init() {
 
 // You need a function like this to update room image, description, and items
 // Should be called after you change the current room
-function refreshRoom() {
-	// TODO
+function movementCheck(){
+
+}
+function roomChange(){
+	  // Get reference to <img> element
+	theImage.src = imageArray[currentRoom];
+	return;
+}
+function refreshRoom(move) {
+
+for(var i = 0; i < roomAccess[currentRoom].length; i++){
+	console.log(roomAccess[currentRoom].length);
+	if (move == roomAccess[currentRoom][i]){
+		console.log(" hey you can move there");
+		console.log(roomAccess[currentRoom][i]);
+		currentRoom+=1;
+		theImage.src = imageArray[currentRoom];
+	}
+}
+	
+	
+	
 }
 
-// This function should get the text from the prompt textbox and parse it
-// depending on the parsed command, it calls appriopriate functions to
-// either take, drop, or go to a different room
+// 
 function isValid(commands){
 
-	var directionArray=['north','south','east','west'];
+	
 	var isAction  = commands.search(/^go /);
 	var isDirection = "";
 	if (isAction == 0){
@@ -60,7 +80,7 @@ function isValid(commands){
 			for (var i=0; i<directionArray.length; i++){
 				if (direction == directionArray[i]){
 					console.log(" yay command is correct!")
-					return true;
+					return [true, direction];
 				}
 			}
 		}
@@ -74,8 +94,9 @@ function parseCommand() {
 	
 	var command=document.getElementById("command").value;
 	var ok = isValid(command);
-	if (ok == true){
+	if (ok[0] == true){
 		document.getElementById("error").innerHTML=" ";
+		refreshRoom(ok[1]);
 		
 	}else{
 		document.getElementById("error").innerHTML="Please make sure you enter command in the right format: Go [North][South][East][West]";
