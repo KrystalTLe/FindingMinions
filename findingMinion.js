@@ -11,7 +11,7 @@ function init() {
 	score = 0;
 	playerItems = [];
 	currentRoom = 0;
-	
+	currentPosition=0;
 	// Make an array that will contain room numbers accessible from a given room
 	//roomAccess = [N,E, S, W]
 	roomAccess = [ [0, -1, -1, -1], [0,-1,1, 3 ], [-1, -1, 1, -1],[-1, 2, 1, 3],[-1,-1,1,-1],[-1,-1,1,-1] ]; // For just 2 rooms - you will need more
@@ -26,13 +26,20 @@ function init() {
 	"You're in loft on Second Floor. Go Left to get to the 1st bedroom, go Right to get to 2nd bedroom. Go South to get to 1st Floor Livingroom", 
 	"You're in the 1st bedroom on Second Floor. Go South to get to Open Loft area",
 	"You're in the 2nd bedroom on Second Floor. Go South to get to Open Loft area"];
-
+	minionPosition=["images/front.jpg","images/back.jpg","images/left.jpg","images/right.jpg"];
 	// Below is an example of how to set the image based on current room
 	imageArray = ["images/entrance.jpg","images/livingroom.jpg", "images/kitchen.jpg", "images/openfloor", "images/bedroom", "images/bedroom2"]; 
 	var theImage = document.getElementById("theImage");  // Get reference to <img> element
 	theImage.src = imageArray[currentRoom];  // Set the source
+
+	var minion=document.getElementById("minion");
+	minion.src=minionPosition[currentPosition];
 	
 
+}
+function scoreCount(){
+	var score=document.getElementById("score");
+	var bananaCount=document.getElementById("bananaCount");
 }
 
 // You need a function like this to update room image, description, and items
