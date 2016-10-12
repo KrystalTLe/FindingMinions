@@ -28,7 +28,7 @@ function init() {
 	"You're in the 2nd bedroom on Second Floor. Go South to get to Open Loft area"];
 
 	// Below is an example of how to set the image based on current room
-	imageArray = ["images/livingroom.jpg", "images/kitchen.jpg", "images/openfloor", "images/bedroom1", "images/bedroom2"]; 
+	imageArray = ["images/entrance.jpg","images/livingroom.jpg", "images/kitchen.jpg", "images/openfloor", "images/bedroom", "images/bedroom2"]; 
 	var theImage = document.getElementById("theImage");  // Get reference to <img> element
 	theImage.src = imageArray[currentRoom];  // Set the source
 	
@@ -56,11 +56,13 @@ function parseCommand() {
 
 	//Convert command[1] into lowercase and save value into variable direction
 	var direction=command[1].toLowerCase();
+	console.log(direction);
 	//Direction array for testing purposes, ensure that user enters directions in the right format.
 	var directionArray=['north','south','east','west'];
 	for (var i=0; i<directionArray.length; i++){
-		console.log(directionArray[i]);
-		console.log(direction);
+		if (direction!=directionArray[i]);
+		document.getElementById("error").innerHTML="Please make sure you enter command in the right format: Go [North][South][East][West]";
+		
 	}
 	
 	
@@ -86,12 +88,8 @@ function newCommand() {
 	   // *** YOUR CODE GOES HERE ***
 	   	parseCommand()
 		// This should be a call to parseCommand
-		// -- gets the command form the user
-		var commands = document.getElementById("imageURL").value;
-		//-debug 
-		window.alert("this was your command: "+ commands)
-		parseCommand(commands);
 
+		
 	   // Stop event propagation
 	      if(!e) var e = window.event;
 	      e.cancelBubble = true;
