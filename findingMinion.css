@@ -17,7 +17,7 @@ label{
 .align-images{
 	position: relative;
 	float: left;
-	width: 70%;
+	width: 60%;
 
 }
 .header{
@@ -33,7 +33,7 @@ label{
 	height: 100%;
 }
 .minionSize{
-	width: 10%;
+	width: 20%;
 	height: 40%;
 	position: absolute;
 	top:55%;
@@ -54,13 +54,13 @@ label{
 .content{
 	text-align: center;
 }
-.score{
+.score_banana{
 	float: left;
-	width: 15%;
+	width:20%;
 }
 .itemCount{
 	float: left;
-	width: 15%;
+	width: 20%;
 }
 .form{
 	width: 100%;
@@ -68,7 +68,7 @@ label{
 	text-align: center;
 }
 .commandBox{
-	width: 70%;
+	width: 60%;
 	height: 30px;
 	font-size: 20px;
 }

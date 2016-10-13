@@ -3,20 +3,27 @@
 // 	Project 2. Distributed and Web Programming. Fall 2016
 function init() {
 	// Initialize variables
-	playerItems = [];
-	currentRoom = 0;
-	playerPossition = 0;
-	currentPosition = 0;
+	currentRoom = 0; 
+	score_banana=0;//Keeps tracks of scores
+	banana_count=0;//Keeps track of number of bananas 
+	randomBanana=0; //Put random number of bananas for each room
+	numArray=[]; //generate an array of 6 randomly generated ints
+	for (var i=0; i<6; i++){
+		randomBanana=Math.floor((Math.random() *2)); 
+		numArray.push(randomBanana);
 
+	}
+	console.log(numArray);
 	//Room descriptions
-	roomDescriptions =[ "You're in front of the apartment. 'GO NORTH' to enter the livingroom", 
+	roomDescriptions =[ 
+	"You're in front of the apartment. 'GO NORTH' to enter the livingroom", 
 	"You're in the livingroom. 'GO WEST' to enter kitchen and 'GO NORTH' to go to the 2nd Floor",
 	"You're in the kitchen. 'GO SOUTH' to back out of kitchen to get to living room",
 	"You're in loft on Second Floor. 'GO WEST' to get to the 2st bedroom, 'GO EAST' to get to 1nd bedroom. 'GO SOUTH' to get to 1st Floor Livingroom", 
 	"You're in the 1st bedroom on Second Floor. 'GO SOUTH' to get to Open Loft area",
 	"You're in the 2nd bedroom on Second Floor. 'GO SOUTH' to get to Open Loft area",
 	"There is a banana in this room. 'TAKE BANANA' to get the banana and score some points"];
-	minionPosition=["images/front.jpg","images/back.jpg","images/left.jpg","images/right.jpg"];
+
 
 	//Prints the room descriptions starting at the first 
 	document.getElementById("description").innerHTML=roomDescriptions[0];
@@ -28,13 +35,47 @@ function init() {
 
 	//Gets the minion to be placed in to the game
 	minion=document.getElementById("minion");
-	minion.src=minionPosition[currentPosition];
-	//scoreBananaCount();
+	minion.src="images/minion5.jpg";
+	checkForBanana(currentRoom, 0);
+
 	
 }
+//This function checks whether there is a banana in the room and perform neccessary 
+//action such as prompting user to "take the banana an score points"
+function checkForBanana(currentRoom, myitem){
+	
+	console.log("banananum" + numArray[currentRoom]);
+	if (numArray[currentRoom]!=0) {
+		document.getElementById("bananaFound").innerHTML=roomDescriptions[6];
+		console.log("myitem"+myitem);
+		if (myitem=="take") {
+			console.log(numArray);
+			score(numArray[currentRoom]);
+		}
+	}if (numArray[currentRoom]==0) {
+		console.log(numArray[currentRoom]);
+		document.getElementById("bananaFound").innerHTML='There is no banana in the room';
+	}
+}
+//This function perform the scoring, for each banana collected, user scores 10 points.
+function score(numberOfBanana){
+
+	score_banana=score_banana+(numberOfBanana*10)
+
+	document.getElementById("score").innerHTML=score_banana;
+	banana_count=banana_count+numberOfBanana;
+
+	document.getElementById("bananaCount").innerHTML=banana_count;
+	console.log("banana"+numArray[currentRoom]);
+
+	numArray[currentRoom]=0;
+	console.log(numArray);
+	document.getElementById("bananaFound").innerHTML='There is no banana left in the room';
 
 
-//Function checks and moves the room to a different rom;
+
+}
+//This function move rooms based on user's current position and command entered.
 function movementCheck(move){
 	// gets the location of the current room
 	
@@ -106,35 +147,18 @@ function movementCheck(move){
 		break;
 		
 	}
-
 }
 //This function check for movement and depending on command it will pudate screen to the apropriate display
 function refreshRoom(move) {
 	movementCheck(move);
 	theImage.src = imageArray[currentRoom];
+	theImage.src = minionArray[currentRoom];
 	document.getElementById("description").innerHTML=roomDescriptions[currentRoom];
 
 }
 
-//*************Bug needs fixed*****************
-//This function keeps the score
-// function scoreBananaCount(){
-// 	var score=document.getElementById("score");
-// 	var bananas=document.getElementById("banana");
-// 	var randomBanana=0;
-// 	randomBanana=Math.floor((Math.random() * 4));
-// 	console.log("random" + randomBanana);
-// 	if (randomBanana==2){
-// 		console.log("here");
-// 		document.getElementById("bananaFound").innerHTML=roomDescriptions[6];
-// 		console.log(document.getElementById("bananaFound").innerHTML=roomDescriptions[6]);
-// 		parseCommand();
-// 	}	
-// }
-//*************Bug needs fixed*****************
 
-
-//This function parses, validates command and performs actions
+//This function parses, validates commands entered by users.
 function parseCommand(){
 	var command=document.getElementById("command").value;
 	//Array of directions, used to determine what to do with user input
@@ -153,6 +177,7 @@ function parseCommand(){
 			for (var i=0; i<directionArray.length; i++){
 				if (direction == directionArray[i]){
 					refreshRoom(direction);
+					checkForBanana(currentRoom, 0);
 				}
 			}
 		}
@@ -165,11 +190,12 @@ function parseCommand(){
 		command=command.split(' ');
 		var myitem=command[1].toLowerCase();
 		if( myitem =="banana"){
-			itemCheck();
+			// pass current room and banana 
+			checkForBanana(currentRoom, command[0]);
 		}
 	}else{
 	//if nothing works then break 
-	return document.getElementById("description").innerHTML="Please make sure you enter command in the right format: Go [North][South][East][West]";
+	document.getElementById("description").innerHTML="Please make sure you enter command in the right format: Go [North][South][East][West]";
 }
 }
 
@@ -178,7 +204,7 @@ function parseCommand(){
 // if so, it parses the text and updates the room (if needed)
 function newCommand() {
 // Get the code for the character that was pressed
-var x;
+	var x;
 	if(window.event) // IE8 and earlier
 	{
 		x=event.keyCode;
@@ -190,7 +216,9 @@ var x;
 
 	// Check if "enter" was pressed
 	if (x==13) {
-		parseCommand()
+
+		parseCommand();
+		
 	  // Stop event propagation
 	  if(!e) var e = window.event;
 	  e.cancelBubble = true;
