@@ -7,47 +7,48 @@ function init() {
 
 	// Initialize score, playerItems, etc.
 	score = 0;
+	banana = 0;
 	playerItems = [];
+	itemLocatins=[];
 	currentRoom = 0;
 	playerPossition = 0;
 	currentPosition = 0;
-
-	directionArray=['north','south','east','west'];
-	// Make an array that will contain room numbers accessible from a given room
-	//roomAccess = [N,E, S, W]
-	//-------------1------------2--------2------------------3-----------4---------------5--------6--------
-	roomAccess = [ ["north"], ["north","south","west"], ["east"],["south","east","west"],["south"],["south"] ]; // For just 2 rooms - you will need more
-	// This is how you will access the target room: roomAccess[currentRoom][dir]
-	// e.g., roomAcess[1][NORTH]
-	//---------------
-	//----------------
-	// Make an array of room descriptions (just strings)
-
+	//--this will make random numbers 0-2 for a random placement of bananas
+	for (var i=0;i<5;i++){
+		itemLocatins[i] = Math.random()*2
+	}
+	//--used for comparison 
+	directionArray = ["north","west","east","south"];
+	// -- prints items locatins, for debuging!
+	console.log(itemLocatins);
+	//-- room descriptions
 	roomDescriptions =[ "You're in front of the apartment. 'GO NORTH' to enter the livingroom", 
 	"You're in the livingroom. 'GO WEST' to enter kitchen and 'GO NORTH' to go to the 2nd Floor",
-	"You're in the kitchen. 'GO EAST' to back out of kitchen to get to living room",
-	"You're in loft on Second Floor. 'GO WEST' to get to the 1st bedroom, 'GO EAST' to get to 2nd bedroom. 'GO SOUTH' to get to 1st Floor Livingroom", 
+	"You're in the kitchen. 'GO SOUTH' to back out of kitchen to get to living room",
+	"You're in loft on Second Floor. 'GO WEST' to get to the 2st bedroom, 'GO EAST' to get to 1nd bedroom. 'GO SOUTH' to get to 1st Floor Livingroom", 
 	"You're in the 1st bedroom on Second Floor. 'GO SOUTH' to get to Open Loft area",
 	"You're in the 2nd bedroom on Second Floor. 'GO SOUTH' to get to Open Loft area"];
 	minionPosition=["images/front.jpg","images/back.jpg","images/left.jpg","images/right.jpg"];
-	roomDescriptions[0];
+	//-- prints the room descriptions starting at the first 
+	document.getElementById("error").innerHTML=roomDescriptions[0];
+	
 	// Below is an example of how to set the image based on current room
 	imageArray = ["images/entrance.jpg","images/livingroom.jpg", "images/kitchen.jpg", "images/openfloor.jpg", "images/bedroom.jpg", "images/bedroom2.jpg"]; 
 	var theImage = document.getElementById("theImage");  // Get reference to <img> element
 	theImage.src = imageArray[currentRoom];  // Set the source
-
-	var minion=document.getElementById("minion");
+	//--gets the minion to be placed in to the game
+	minion=document.getElementById("minion");
 	minion.src=minionPosition[currentPosition];
-	
+	//minion.style.position = 'relative';
 
 }
+
 function scoreCount(){
 	var score=document.getElementById("score");
 	var bananaCount=document.getElementById("bananaCount");
 }
 
-// You need a function like this to update room image, description, and items
-// Should be called after you change the current room
+//--function checks and moves the room to a different rom;
 function movementCheck(move){
 	// gets the location of the current room
 	console.log("current room: "+currentRoom);
@@ -69,13 +70,11 @@ switch(currentRoom){
 		}
 		
 		//move to back to living room
-		if(move == "south");
-		{
+		if(move == "south") {
 			currentRoom -= 1;
 			console.log("room 2s: " +currentRoom);
 		}
-		if(move == "west");
-		{
+		if(move == "west") {
 			currentRoom += 1;
 			console.log("room 2s: " +currentRoom);
 		}
@@ -128,31 +127,37 @@ function roomChange(){
 	theImage.src = imageArray[currentRoom];
 	return;
 }
+//-- this function will chekc if there is a banana in the room and it will update banana count
+function itemCheck(){
+	// -- BUGGG needs fix! stay in one room and enter banna multiple times cheat 
+	if(itemLocatins[currentRoom] > 1){
+		playerItems[currentPosition] = 1;
+		banana +=1;
+		document.getElementById("bananaCount").innerHTML=banana;
+	}
+}
+//-- this function check for movement and depending on command it will pudate screen to the apropriate display
 function refreshRoom(move) {
-
-
 movementCheck(move);
-console.log("before chage: "+ currentRoom);
 theImage.src = imageArray[currentRoom];
-console.log("after change: "+ currentRoom);
+document.getElementById("error").innerHTML=roomDescriptions[currentRoom];
 
-
-	
-	
 }
 
-// 
+// -- checks if the argument is valid and follows a certain pattern
 function isValid(commands){
 
-	
+	//--checks if the first word is go, 
 	var isAction  = commands.search(/^go /);
 	var isDirection = "";
 	if (isAction == 0){
 		console.log("is action true");
 		commands=commands.split(' ');
 		var direction=commands[1].toLowerCase();
+		// checks if the command not a number or blank 
 		isDirection = direction.search(/\w/)
 		console.log(isDirection)
+		//--then it checks if the second argument is a valid movement EX: west, north south east
 		if(isDirection == 0 ){
 			console.log("is direction true")
 			for (var i=0; i<directionArray.length; i++){
@@ -163,19 +168,35 @@ function isValid(commands){
 			}
 		}
 	}
+	//-- cheks if the user wants to get a banna
+	isAction  = commands.search(/^take /);
+	if(isAction == 0){
+		commands=commands.split(' ');
+		var myitem=commands[1].toLowerCase();
+		if( myitem =="banana"){
+			return [true, myitem];
+		}
+	}
+	//if nothing works then break 
 	return false;
 }
-
+// -- if the user enters the correct command it gets banna or moves rooms
 function parseCommand() {
-
-	
 	
 	var command=document.getElementById("command").value;
 	var ok = isValid(command);
 	if (ok[0] == true){
 		document.getElementById("error").innerHTML=" ";
-		refreshRoom(ok[1]);
-		
+		// -- the user wants to check if theres a banan 
+		if(ok[1] =="banana"){
+			itemCheck();
+			console.log(playerItems);
+
+		}
+		// -- this means a direction was entered, the program proceeds
+		if(ok[1]!="banana"){
+			refreshRoom(ok[1]);
+		}
 		
 	}else{
 		document.getElementById("error").innerHTML="Please make sure you enter command in the right format: Go [North][South][East][West]";
@@ -199,12 +220,8 @@ function newCommand() {
 
 	// Check if "enter" was pressed
 	if (x==13) {
-	   // *** YOUR CODE GOES HERE ***
 	   	parseCommand()
-		// This should be a call to parseCommand
-
-		
-	   // Stop event propagation
+	  // Stop event propagation
 	      if(!e) var e = window.event;
 	      e.cancelBubble = true;
 	      e.returnValue = false;
