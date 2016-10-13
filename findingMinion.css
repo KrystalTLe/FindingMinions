@@ -1,3 +1,6 @@
+/*Names:  	Osvaldo Gonzalez
+			Krystal Le
+Project 2. Distributed and Web Programming. Fall 2016*/
 body{
 	background-color: black;
 	
@@ -31,9 +34,9 @@ label{
 }
 .minionSize{
 	width: 10%;
-	height: 50%;
+	height: 40%;
 	position: absolute;
-	top:45%;
+	top:55%;
 	left:50%;
 }
 
