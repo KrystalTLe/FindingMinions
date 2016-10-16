@@ -13,7 +13,7 @@ function init() {
 		numArray.push(randomBanana);
 
 	}
-	console.log(numArray);
+	
 	//Room descriptions
 	roomDescriptions =[ 
 	"You're in front of the apartment. 'GO NORTH' to enter the livingroom", 
@@ -44,16 +44,16 @@ function init() {
 //action such as prompting user to "take the banana an score points"
 function checkForBanana(currentRoom, myitem){
 	
-	console.log("banananum" + numArray[currentRoom]);
+	
 	if (numArray[currentRoom]!=0) {
 		document.getElementById("bananaFound").innerHTML=roomDescriptions[6];
-		console.log("myitem"+myitem);
+		
 		if (myitem=="take") {
-			console.log(numArray);
+			
 			score(numArray[currentRoom]);
 		}
 	}if (numArray[currentRoom]==0) {
-		console.log(numArray[currentRoom]);
+		
 		document.getElementById("bananaFound").innerHTML='There is no banana in the room';
 	}
 }
@@ -66,10 +66,9 @@ function score(numberOfBanana){
 	banana_count=banana_count+numberOfBanana;
 
 	document.getElementById("bananaCount").innerHTML=banana_count;
-	console.log("banana"+numArray[currentRoom]);
 
 	numArray[currentRoom]=0;
-	console.log(numArray);
+	
 	document.getElementById("bananaFound").innerHTML='There is no banana left in the room';
 
 
@@ -152,7 +151,6 @@ function movementCheck(move){
 function refreshRoom(move) {
 	movementCheck(move);
 	theImage.src = imageArray[currentRoom];
-	theImage.src = minionArray[currentRoom];
 	document.getElementById("description").innerHTML=roomDescriptions[currentRoom];
 
 }
@@ -164,8 +162,7 @@ function parseCommand(){
 	//Array of directions, used to determine what to do with user input
 	var directionArray = ["north","west","east","south"];
 	//Checks if the first word is go
-	//var isAction  = command.search(/^go /);
-	
+	//When user enters direction command
 	var isDirection = "";
 	if (command.search(/^go /) == 0){
 		command=command.split(' ');
@@ -182,10 +179,7 @@ function parseCommand(){
 			}
 		}
 	}
-	//console.log("action1"+isAction);
-	//Cheks if the user wants to get a banana
-	//isAction  = command.search(/^take /);
-	//console.log("action2"+isAction);
+	//When user enters take command
 	else if( command.search(/^take /)== 0){
 		command=command.split(' ');
 		var myitem=command[1].toLowerCase();
