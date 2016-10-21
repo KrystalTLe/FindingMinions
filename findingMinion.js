@@ -21,10 +21,13 @@ function init() {
 		randomBanana=Math.floor((Math.random() *2)); 
 		numArray.push(randomBanana);
 
+
 	*/
 	endAudio = new Audio("end.mp3");
 	alert("Hello player, the minions are very hungry and the evil genius Dr. Gru does not want to feed them. Therefore, Kevin has taken it upon himself to find all the food that Gru has hidden around the house. The minions have stolen a special device from Dr. Nefari in order to find all the food, but they are unable to read anything on it, and that is where you come in, help them read the device and feed the starving minions! They will pay you on points depending of the food that you collect(feel free to play music at the bottom of the screen)");
 	//console.log(bananaLocArray);
+	
+
 	//Room descriptions
 	roomDescriptions =[ 
 	"use command 'drop items'  and score points for your fellow minios, or go north to enter house",
@@ -53,8 +56,10 @@ function init() {
 
 	
 }
+
 //This function checks whether there is a banana in the room and perform neccessary 
 //action such as prompting user to "take the banana an score points"
+
 function checkForItems(currentRoom, actions, myitem){
 	if (bananaLocArray[currentRoom] != 0 || appleLocArray[currentRoom] !=0 || pearLocArray[currentRoom] !=0 || potatoLocArray[currentRoom] != 0 )  {
 		document.getElementById("bananaFound").innerHTML=roomDescriptions[7];
@@ -118,6 +123,35 @@ function score(){
 		document.getElementById("bananaFound").innerHTML='reload screen to play again';
 		endAudio.play();
 	}
+}
+function checkForBanana(currentRoom, myitem){
+	
+	
+	if (numArray[currentRoom]!=0) {
+		document.getElementById("bananaFound").innerHTML=roomDescriptions[6];
+		
+		if (myitem=="take") {
+			
+			score(numArray[currentRoom]);
+		}
+	}if (numArray[currentRoom]==0) {
+		
+		document.getElementById("bananaFound").innerHTML='There is no banana in the room';
+	}
+}
+//This function perform the scoring, for each banana collected, user scores 10 points.
+function score(numberOfBanana){
+
+	score_banana=score_banana+(numberOfBanana*10)
+
+	document.getElementById("score").innerHTML=score_banana;
+	banana_count=banana_count+numberOfBanana;
+
+	document.getElementById("bananaCount").innerHTML=banana_count;
+
+	numArray[currentRoom]=0;
+	
+	document.getElementById("bananaFound").innerHTML='There is no banana left in the room';
 }
 //This function move rooms based on user's current position and command entered.
 function movementCheck(move){
@@ -216,6 +250,7 @@ function parseCommand() {
 	var directionArray = ["north","west","east","south"];
 	//Checks if the first word is go
 	var myfruits = ["apple","banana","pear","potato"];
+	//When user enters direction command
 	var isDirection = "";
 	if (command.search(/^go /) == 0){
 		command=command.split(' ');
@@ -232,8 +267,9 @@ function parseCommand() {
 			}
 		}
 	}
-	//Cheks if the user wants to get a items
-	else if( command.search(/^take /)== 0)	{
+
+	//When user enters take command
+	else if( command.search(/^take /)== 0){
 		command=command.split(' ');
 		var myitem=command[1].toLowerCase();
 		// compares of the user entered the right item after take, 
@@ -285,3 +321,4 @@ function newCommand() {
 	  }		
 	}	 
 }
+
