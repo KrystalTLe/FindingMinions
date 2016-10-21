@@ -1,0 +1,11 @@
+--ADDED new room
+-- drop Function 
+-- and new items to collect
+
+ITEM ORDER
+
+item locatios of apple, pear, banana and potato:
+	room 1, room 3, room 6
+	typing take[apple][pear][banana][potato] will collect the item and update the array and the screen respectably 
+
+by moving to room 0 we can drop all the items and get points 
